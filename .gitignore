@@ -9,3 +9,5 @@ artifacts/
 *.keystore
 .env
 .env.*
+
+/dist/

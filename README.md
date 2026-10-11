@@ -201,6 +201,20 @@ app/src/test/           # 文件名与重试记录单元测试
 website/                # 官网、真实截图、1.0.0 下载与校验值
 ```
 
+## 官网开发
+
+官网是 `website/` 下的静态 HTML、CSS 和 JavaScript，不依赖前端框架。
+
+```bash
+# 本地预览
+python3 -m http.server 8787 --directory website
+
+# 准备部署目录（需要 Node.js）
+node scripts/build-website.mjs
+```
+
+部署目录为被 Git 忽略的 `dist/`。官网图片来自真机截图；请勿提交包含个人信息的截图或签名密钥。
+
 ## 验证与参与
 
 现有单元测试覆盖非法文件名、路径穿越字符、Unicode 长文件名、同名后缀以及有界重试记录。真机验证还需检查分享授权、SMB 认证、文件内容一致性、取消/失败和通知行为。
