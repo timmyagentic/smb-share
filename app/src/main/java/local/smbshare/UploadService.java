@@ -8,24 +8,36 @@ public class UploadService extends Service {
  static volatile String message="", detail="";
  static volatile int percent=0;
  static final RetryHistory completed=new RetryHistory(8);
+ static final class Snapshot {
+  final String message,detail;final int percent;final boolean active,finished;
+  Snapshot(String m,String d,int p,boolean a,boolean f){message=m;detail=d;percent=p;active=a;finished=f;}
+ }
+ private static final LinkedHashMap<String,Snapshot> snapshots=new LinkedHashMap<>();
+ static synchronized Snapshot snapshot(String batch){return snapshots.get(batch);}
+ static synchronized void remember(String batch,Snapshot state){
+  snapshots.put(batch,state);
+  // Never evict queued or active transfers.
+  if(snapshots.size()>16){Iterator<Map.Entry<String,Snapshot>> it=snapshots.entrySet().iterator();while(it.hasNext()&&snapshots.size()>16)if(it.next().getValue().finished)it.remove();}
+ }
+ String activeBatch;
  NotificationManager nm;
  final ArrayDeque<Intent> queue=new ArrayDeque<>();
  @Override public IBinder onBind(Intent i){return null;}
  @Override public void onCreate(){super.onCreate();nm=getSystemService(NotificationManager.class);nm.createNotificationChannel(new NotificationChannel("upload","文件传输",NotificationManager.IMPORTANCE_LOW));nm.createNotificationChannel(new NotificationChannel("result","传输结果",NotificationManager.IMPORTANCE_DEFAULT));}
- Notification notification(){return new Notification.Builder(this,"upload").setSmallIcon(local.smbshare.R.drawable.ic_share).setContentTitle("SMB 分享 · "+message).setContentText(detail).setOngoing(running).setContentIntent(PendingIntent.getActivity(this,0,new Intent(this,MainActivity.class),PendingIntent.FLAG_IMMUTABLE|PendingIntent.FLAG_UPDATE_CURRENT)).build();}
- void update(String m,String d,int p){message=m;detail=d;percent=p;sendBroadcast(new Intent(UPDATE).setPackage(getPackageName()));nm.notify(1,notification());}
+ Notification notification(){return new Notification.Builder(this,"upload").setSmallIcon(local.smbshare.R.drawable.ic_share).setContentTitle("SMB 分享 · "+message).setContentText(detail).setOngoing(running).setContentIntent(PendingIntent.getActivity(this,0,new Intent(this,TransferActivity.class).putExtra("batch",activeBatch),PendingIntent.FLAG_IMMUTABLE|PendingIntent.FLAG_UPDATE_CURRENT)).build();}
+ void update(String m,String d,int p){message=m;detail=d;percent=p;remember(activeBatch,new Snapshot(m,d,p,true,false));sendBroadcast(new Intent(UPDATE).setPackage(getPackageName()));nm.notify(1,notification());}
  static Intent request(Context context,ArrayList<Uri> files,String batch){
   Intent i=new Intent(context,UploadService.class).putParcelableArrayListExtra("uris",files).putExtra("batch",batch).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
   ClipData clips=ClipData.newRawUri("files",files.get(0));for(int n=1;n<files.size();n++)clips.addItem(new ClipData.Item(files.get(n)));i.setClipData(clips);return i;
  }
  @Override public int onStartCommand(Intent i,int flags,int id){
   if(i==null)return START_NOT_STICKY;
-  queue.addLast(new Intent(i));if(!running)startNext();return START_NOT_STICKY;
+  remember(i.getStringExtra("batch"),new Snapshot("等待传输","前面的文件完成后自动开始",0,false,false));queue.addLast(new Intent(i));if(!running)startNext();return START_NOT_STICKY;
  }
  void startNext(){
-  Intent i=queue.removeFirst();
+  Intent i=queue.removeFirst();activeBatch=i.getStringExtra("batch");
   running=true;cancelled=false;message="准备连接";detail="";percent=0;
-  startForeground(1,notification());
+  remember(activeBatch,new Snapshot(message,detail,0,true,false));startForeground(1,notification());
   ArrayList<Uri> uris=i.getParcelableArrayListExtra("uris");String batch=i.getStringExtra("batch");
   new Thread(()->upload(uris,batch),"smb-upload").start();
  }
@@ -95,7 +107,7 @@ public class UploadService extends Service {
    update(cancelled?"已取消":"传输失败",reason,0);
   }finally{
    // Publish idle only after resources are closed, serialized with onStartCommand.
-   new Handler(getMainLooper()).post(()->{running=false;stopForeground(STOP_FOREGROUND_REMOVE);resultNotification();if(queue.isEmpty())stopSelf();else startNext();sendBroadcast(new Intent(UPDATE).setPackage(getPackageName()));});
+   new Handler(getMainLooper()).post(()->{remember(activeBatch,new Snapshot(message,detail,percent,false,true));running=false;stopForeground(STOP_FOREGROUND_REMOVE);resultNotification();if(queue.isEmpty())stopSelf();else startNext();sendBroadcast(new Intent(UPDATE).setPackage(getPackageName()));});
   }
  }
  @Override public void onTimeout(int startId,int fgsType){cancelled=true;stopSelf();}

@@ -85,6 +85,11 @@ public class MainActivity extends Activity {
   autoPending=false;
   if(!Vault.prefs(this).contains("secret")){settings();return;}
   if(Build.VERSION.SDK_INT>=33&&checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED)requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS},9);
-  startForegroundService(UploadService.request(this,files,batch));send.setEnabled(false);
+  Intent request=UploadService.request(this,files,batch);
+  if(ShareActivity.needsPage(this,files)){
+   Intent page=new Intent(this,TransferActivity.class).putParcelableArrayListExtra("uris",files).putExtra("batch",batch).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+   page.setClipData(request.getClipData());startActivity(page);
+  }else startForegroundService(request);
+  send.setEnabled(false);
  }
 }

@@ -14,6 +14,7 @@
   <activity android:name=".ShareActivity" android:exported="true" android:theme="@style/ShareTheme" android:excludeFromRecents="true" android:taskAffinity="">
    <intent-filter android:label="SMB 分享"><action android:name="android.intent.action.SEND"/><action android:name="android.intent.action.SEND_MULTIPLE"/><category android:name="android.intent.category.DEFAULT"/><data android:mimeType="*/*"/></intent-filter>
   </activity>
+  <activity android:name=".TransferActivity" android:exported="false"/>
   <service android:name=".UploadService" android:exported="false" android:foregroundServiceType="dataSync"/>
  </application>
 </manifest>

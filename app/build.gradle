@@ -2,7 +2,7 @@ plugins { id 'com.android.application' }
 android {
  namespace 'local.smbshare'
  compileSdk 36
- defaultConfig { applicationId 'local.smbshare'; minSdk 28; targetSdk 36; versionCode 6; versionName '1.0.0' }
+ defaultConfig { applicationId 'local.smbshare'; minSdk 28; targetSdk 36; versionCode 7; versionName '1.1.0' }
  buildTypes { release { minifyEnabled true; shrinkResources true; signingConfig signingConfigs.debug; proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' } }
  compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
  packaging { resources.excludes += ['META-INF/versions/**', 'META-INF/*.kotlin_module', 'META-INF/INDEX.LIST', 'META-INF/services/java.security.Provider', 'org/bouncycastle/pqc/**', 'org/bouncycastle/x509/*.properties'] }
