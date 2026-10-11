@@ -9,3 +9,8 @@
 -dontwarn javax.el.**
 # MBassador instantiates dispatchers/factories by reflected constructors.
 -keep class net.engio.mbassy.** { *; }
+
+# Diagnostic instrumentation exercises the exact platform provider implementation.
+-keep class local.smbshare.AndroidSecurityProvider { *; }
+# Stable API names for the on-device cross-provider cryptographic self-check.
+-keep class com.hierynomus.security.** { *; }
