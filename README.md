@@ -1,54 +1,220 @@
-# SMB Share · SMB 分享
+<div align="center">
+  <img src="website/assets/icon.svg" width="72" height="72" alt="SMB Share">
+  <h1>SMB Share · SMB 分享</h1>
+  <p><strong>在 Android 分享菜单里点一下，把文件直接送到 Mac。</strong></p>
+  <p>局域网直传 · 完成即通知 · 约 300 KiB · MIT 开源</p>
+  <p><a href="https://smb.timmyagentic.si">项目官网</a> · <a href="https://smb.timmyagentic.si/downloads/SMB-Share-1.0.0.apk">下载 1.0.0 APK</a> · <a href="#快速开始">快速开始</a> · <a href="#已知限制">已知限制</a> · <a href="https://github.com/timmyagentic/smb-share/issues">反馈问题</a></p>
+</div>
 
-版本 **1.0.0** · Android 9+ · MIT License
+SMB Share 是一个轻量的原生 Android 分享接收器。首次配置好 Mac 共享文件夹后，在文件管理器或相册中选择文件，打开系统分享菜单并点 **「SMB 分享」**，就会自动在后台上传，完成后发送系统通知。
 
-一个原生 Android 分享接收器：从系统分享面板接收一个或多个文件，经 SMB2/3 上传到预设共享文件夹。无广告、无网页界面、无分析服务，无需电脑客户端。
+文件通过 SMB2/3 在手机与目标共享服务器之间直接传输，无需电脑端客户端或云端中转。App 无广告、无分析 SDK，也不要求注册账户。
 
-首次打开填写服务器、共享名称、用户名、密码并保存。密码默认隐藏，可勾选“显示密码”；已保存密码不回填输入框。随后在文件管理器或相册中选择文件 → 分享 → SMB 分享，即后台上传并返回原应用，完成后通知；首次填写设置并保存后会继续上传。手动打开 App 选择文件时，仍需点击“发送到 Mac”。新分享若遇到进行中的传输，会加入后台队列。失败通知可打开设置，修正后从原应用重新分享。页面重建不会再次自动发送已启动的批次。
+> **当前版本：1.0.0。** 这是个人维护的早期项目。日常小文件分享已通过真机验证；部分手机系统会冻结长时间后台传输，详见[已知限制](#已知限制)。
 
-## 使用
+## 真实软件截图
 
-1. 在 Mac 的系统设置中开启文件共享和 SMB，为接收目录配置账户访问权限。
-2. 手机与 Mac 连接同一局域网，在 App 中填写 Mac 地址、共享名称、用户名和密码。
-3. 在文件管理器或相册中选择文件，打开系统分享菜单并选择「SMB 分享」。
-4. 收到「已发送到 Mac」通知后，可到共享目录查看文件。
+以下图片直接截取自 **vivo V2502DA / Android 16 上的 1.0.0 实际应用与系统界面**，未经 AI 生成或重绘。分享面板和通知样式因手机而异。点击图片可查看原图。
 
-## 行为与边界
+<table>
+  <tr>
+    <th align="center">① 主界面</th>
+    <th align="center">② 系统分享入口</th>
+    <th align="center">③ 传输成功通知</th>
+  </tr>
+  <tr>
+    <td align="center"><a href="website/assets/app-home.png"><img src="website/assets/app-home.png" width="245" alt="SMB 分享主界面，含选择文件、发送到 Mac 和连接设置按钮"></a></td>
+    <td align="center"><a href="website/assets/share-sheet.png"><img src="website/assets/share-sheet.png" width="245" alt="系统分享菜单中的 SMB 分享入口"></a></td>
+    <td align="center"><a href="website/assets/upload-done.png"><img src="website/assets/upload-done.png" width="245" alt="系统成功通知：已发送到 Mac，1 个文件已保存到 PhoneInbox"></a></td>
+  </tr>
+  <tr>
+    <td align="center">配置接收端，也可手动选文件</td>
+    <td align="center">点一下，自动开始上传</td>
+    <td align="center">保持在原应用，完成后通知</td>
+  </tr>
+</table>
 
-- Android 9+；仅接收获得临时读取授权的 content URI，不申请整个存储空间访问权限。
-- 静态原生界面使用软件绘制，避免常驻GPU渲染缓存；设置输入控件仅由对话框持有，关闭时清空密码。
-- 分享入口使用 Theme.NoDisplay，不创建窗口/图形缓冲；前台服务流式上传，每批复用一个128 KiB 缓冲区；通知显示状态，支持取消。
-- 先上传随机命名的 `.smbshare-*.part`，完成后原子改名；同名文件使用 `(1)` 等后缀，绝不覆盖。
-- 最近8批次使用有界位图保存重试进度，不保留历史文件URI字符串；重试会跳过该批次内已完成的文件。不是断点续传；系统杀死进程后需重新分享。强制终止或断网可能遗留 `.part` 文件，不将其显示为完成文件。
-- 密码用 Android Keystore AES-GCM 加密保存，设置窗口禁止截屏，关闭 Android 备份。服务器验证依赖用户输入的 SMB 地址和账户；不要连接不可信服务器。
-- 使用标准 SMB 库 SMBJ，协商 SMB2/3；不支持 SMB1。不修改系统分享面板的排序。
-- 初版仅配置一个共享根目录；端口445，不支持域账户配置或自动同步。
+连接设置中的密码输入框默认隐藏，可选择显示。设置窗口启用了 Android 安全窗口标记，因此这里不展示该窗口的截图。
+
+## 能做什么
+
+| 功能 | 行为 |
+| --- | --- |
+| 系统分享入口 | 接收其他 App 分享的一个或多个文件；已完成配置时自动上传 |
+| 后台传输与通知 | 使用前台服务展示传输状态，完成后显示成功或失败通知 |
+| 同名文件保护 | 自动使用 `文件名 (1).扩展名` 等后缀，不覆盖已有文件 |
+| 完成后再改名 | 先写入 `.smbshare-*.part`，成功后改为正式文件名 |
+| 本地保存凭证 | 使用 Android Keystore AES-GCM 加密，密码不回填到设置输入框 |
+| 手动选择与取消 | 可在主界面选择文件、发送到 Mac、取消当前传输 |
+| 流式上传 | 每批复用 128 KiB 应用层缓冲区，不将整个文件载入内存 |
+| 轻量实现 | Java + Android 原生控件，无 WebView；APK 约 300 KiB |
+
+## 安装
+
+- 手机：**Android 9（API 28）或更新版本**。
+- 接收端：已启用 SMB2/3 的共享文件夹；当前主要验证 macOS 文件共享。
+- 网络：手机与接收端可通过局域网互相访问，目标 SMB 端口为 **445**。
+
+**[下载 SMB Share 1.0.0 APK](https://smb.timmyagentic.si/downloads/SMB-Share-1.0.0.apk)**
+
+安装时，Android 可能要求允许浏览器或文件管理器安装未知来源应用。首次使用请允许 App 的通知权限，以便查看上传结果。
+
+可使用 [SHA256SUMS.txt](https://smb.timmyagentic.si/downloads/SHA256SUMS.txt) 核对下载文件：
+
+```bash
+shasum -a 256 SMB-Share-1.0.0.apk
+```
+
+当前 APK 是个人使用构建，使用开发签名，并非应用商店发行版。覆盖升级需使用相同签名；自行构建的 APK 可能无法直接覆盖官网构建。源码中的 `versionName` 是用户可见版本，`versionCode` 是持续递增的 Android 内部升级编号。
+
+## 快速开始
+
+### 1. 在 Mac 上开启共享
+
+1. 打开 **系统设置 → 通用 → 共享**，启用「文件共享」。不同 macOS 版本的菜单位置可能略有差异。
+2. 添加一个专门接收手机文件的文件夹，例如 `PhoneInbox`。
+3. 在文件共享的「选项」中启用通过 SMB 共享文件，并允许用于连接的 Mac 账户。
+4. 为该账户授予接收文件夹的读写权限。
+5. 记下 Mac 当前的局域网 IP、共享名称和账户短用户名。
+
+Mac 应保持唤醒，并与手机处于能够互访的网络；访客 Wi-Fi 或启用了设备隔离的无线网络可能阻止连接。
+
+### 2. 在手机上配置接收端
+
+打开 App → **连接设置**，填写：
+
+| 字段 | 填写内容 |
+| --- | --- |
+| Mac 地址 | Mac 的局域网 IPv4 地址；不要包含 `smb://`、路径或端口 |
+| 共享名称 | SMB 共享名称，例如 `PhoneInbox`；不是 Mac 上的完整文件夹路径 |
+| 用户名 | 获准使用 SMB 的 Mac 账户短用户名 |
+| Mac 登录密码 | 该账户的登录密码，不是 Apple 账户密码 |
+
+保存后即可开始分享。再次编辑设置时，密码留空会保留已保存密码；勾选「显示密码」只影响本次输入的可见性。关闭窗口会清空未保存的输入。
+
+### 3. 从其他 App 分享文件
+
+1. 在文件管理器或相册中选中一个或多个文件。
+2. 打开系统分享菜单，选择 **SMB 分享**。
+3. 配置和通知权限齐备时，上传会自动开始，无需再点「发送到 Mac」。
+4. 等待 **「已发送到 Mac」** 通知，再到共享文件夹查看结果。
+
+首次使用时可能先进入配置或权限界面。已有传输尚未结束时，新分享会加入队列。
+
+如果从 SMB Share 主界面点「选择文件」，则需要再点「发送到 Mac」。需要中止时，可在主界面点「取消传输」。
+
+## 权限与数据
+
+- **网络权限**：连接指定的 SMB 服务器。
+- **前台服务与通知权限**：显示传输过程和结果。
+- **文件访问**：仅使用你通过系统文件选择器或分享操作授予的 `content://` 读取权限，不请求整个存储空间访问权。
+- **连接凭证**：保存在手机本地，使用 Android Keystore 加密；不上传至项目官网。
+- **备份与截图**：关闭 Android 应用备份；包含密码的设置窗口禁止截屏。
+- **传输安全**：使用标准 SMB2/3 协商。请只连接可信局域网和服务器；本项目不保证每个服务器连接都强制启用 SMB 传输加密。
+
+官网只提供项目介绍、源码链接和安装包，不参与文件传输。
 
 ## 已知限制
 
-部分厂商的后台省电策略会暂停前台服务。当前 vivo Android 16 实测中，16 MiB 文件后台分享通过；128 MiB 长传输会被系统冻结，恢复前台后可能超时失败。大文件长时后台传输尚不可靠，请在使用前确认完整传输成功。失败或进程被终止时可能遗留 `.smbshare-*.part` 临时文件。
+### 长时间后台传输
 
-## 构建
+目前在 vivo Android 16 上，**16 MiB 文件的实际后台分享、文件 SHA-256 和完成通知已验证通过**。但 **128 MiB 长传输曾被厂商系统冻结，恢复前台后失败**。这一问题尚未解决，不能把小文件测试视作任意大小文件都能可靠后台传输。
 
-仅保留SMBJ实际调用的加密算法，移除未使用的完整JCA/PQC提供器和参数资源，未改变SMB算法协商或关闭签名/加密。
+其他品牌、Android 版本及厂商省电策略尚未完整验证。大文件传输请确认接收端文件完整，并以成功通知为准。
 
-Java 17、Android SDK 36、Gradle 8.14.3：
+### 其他边界
 
-```
+- 目前只配置一个目标共享根目录，不提供多服务器列表或子目录选择。
+- 支持 SMB2/3，不支持 SMB1；不支持域账户配置、自定义端口、IPv6 地址输入。
+- **没有断点续传**。应用内保留最近 8 个批次的有限重试状态；进程结束后不会自动恢复。重新从外部 App 分享会生成新批次。
+- 取消、断网或进程终止后，可能遗留 `.smbshare-*.part` 临时文件。这些文件尚未完成，不能当作成功结果。
+- 当前以 Mac 为主要验证目标，Windows、NAS 和不同 SMB 服务器没有完成完整兼容性测试。
+- 本项目不修改 Android 系统分享菜单的排序。
+
+## 常见问题
+
+### 分享菜单中找不到「SMB 分享」？
+
+确认安装已完成，并尝试从文件管理器分享一个实际文件。App 接收文件分享，不接收纯文本消息或网页链接。部分系统会把入口放在「更多」中。
+
+### 提示连接或传输失败？
+
+先检查 Mac 是否唤醒、手机与 Mac 是否能互访，再检查 IP、共享名称、账户密码、SMB 账户授权和目标目录读写权限。Mac 的 IP 可能随网络重连变化。成功打开端口不等于成功上传文件。
+
+### 为什么没有收到完成通知？
+
+检查系统是否允许 SMB Share 发送通知，以及是否对该应用启用了额外的通知或后台限制。失败通知会提示进入应用检查设置，再重新分享文件。
+
+### 同名文件会被覆盖吗？
+
+不会。App 会自动添加数字后缀。重复从外部分享同一个文件可能产生副本，这是避免覆盖的预期行为。
+
+### 能从互联网远程传回家里吗？
+
+当前目标是可信局域网中的文件传输，不提供公网穿透或远程访问配置。不要为使用本 App 直接把 SMB 端口暴露到公网。
+
+### 怎么确认收到的是完整文件？
+
+先确认收到成功通知。重要文件可进一步对比源文件和 Mac 上文件的 SHA-256。共享目录中的 `.part` 文件表示未完成。
+
+## 从源码构建
+
+需要 **JDK 17**、**Android SDK Platform 36**。仓库自带 Gradle 8.14.3 Wrapper。
+
+```bash
+git clone https://github.com/timmyagentic/smb-share.git
+cd smb-share
+
+# 使用本机 Android SDK 路径
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+
 ./gradlew :app:assembleRelease :app:testReleaseUnitTest :app:lintRelease
 ```
 
-通过 `ANDROID_HOME` 环境变量或本地 `local.properties` 指定 Android SDK 路径。产物在 `app/build/outputs/apk/release/app-release.apk`。
-当前 release 使用本机 Android debug key 签名，适用于个人 ADB 安装，不是商店发布构建。保留相同签名密钥才能覆盖升级。
+也可通过本地 `local.properties` 中的 `sdk.dir` 指定 SDK 路径，该文件不会进入 Git。
 
-## 验证
+输出 APK：
 
-JUnit 检查路径穿越字符、非法名称、同名后缀与 Unicode 长文件名。真机需验证系统分享入口、授权文件读取、SMB认证、单/多文件上传、取消/失败与同名不覆盖。不得将仅端口可达视作实际上传成功。
+```text
+app/build/outputs/apk/release/app-release.apk
+```
 
-## 依赖
+安装到已连接的设备：
 
-SMBJ 0.15.0（Apache-2.0）及其传递依赖；SLF4J NOP 2.0.17。Gradle 下载标准 Maven/Google 仓库依赖。
+```bash
+adb install -r app/build/outputs/apk/release/app-release.apk
+```
 
-## 许可证
+当前 release 构建使用本机 Android debug keystore 签名。项目不提交签名密钥；若用于正式分发，请自行配置和妥善保存签名密钥。
 
-本项目采用 [MIT License](LICENSE)。第三方依赖保留各自许可证，SMBJ 与 SLF4J 等依赖不因本项目采用 MIT 而改变其授权条款。
+## 项目结构
+
+```text
+app/src/main/java/local/smbshare/
+├── MainActivity.java   # 主界面与连接设置
+├── ShareActivity.java  # 无窗口分享入口，交接到上传服务
+├── UploadService.java  # 队列、SMB 上传、取消及通知
+├── Vault.java          # 本地凭证加密
+├── Names.java          # 文件名清理与同名处理
+└── RetryHistory.java   # 有界批次进度记录
+app/src/test/           # 文件名与重试记录单元测试
+website/                # 官网、真实截图、1.0.0 下载与校验值
+```
+
+## 验证与参与
+
+现有单元测试覆盖非法文件名、路径穿越字符、Unicode 长文件名、同名后缀以及有界重试记录。真机验证还需检查分享授权、SMB 认证、文件内容一致性、取消/失败和通知行为。
+
+欢迎提交 Issue 或 Pull Request。报告问题时，请附上手机型号、Android 版本、接收端系统、文件大小和复现步骤；请去除密码、个人文件内容以及截图中的私人信息。
+
+## 许可证与依赖
+
+本项目采用 [MIT License](LICENSE)。
+
+- [SMBJ](https://github.com/hierynomus/smbj) 0.15.0：SMB2/3 客户端，Apache-2.0。
+- [SLF4J](https://www.slf4j.org/) NOP 2.0.17：无日志输出实现，MIT。
+- Bouncy Castle 等传递依赖保留各自许可证。构建仅保留 SMBJ 实际使用的加密算法和资源。
+
+---
+
+**English:** SMB Share is a small native Android share target that uploads selected files directly to a Mac or SMB2/3 share on your local network. Configure the destination once, choose “SMB 分享” in the system share sheet, and receive a notification when the upload completes. No desktop companion or cloud relay is required. Android 9+, MIT licensed. Long-running background transfers are not yet reliable on some OEM devices; see the limitations above before use.
