@@ -50,23 +50,19 @@ public class UploadService extends Service {
   nm.notify(2,n);
  }
  void upload(ArrayList<Uri> uris,String batch){
-  PerfMetrics perf=new PerfMetrics();long phase;
   try {
    if(uris==null||uris.isEmpty())throw new IOException("没有可上传的文件");
    android.content.SharedPreferences p=Vault.prefs(this);
    char[] password=Vault.password(this).toCharArray();
-   SmbConfig config=SmbConfig.builder().withTimeout(30,TimeUnit.SECONDS).withSoTimeout(30,TimeUnit.SECONDS).withSecurityProvider(perf.provider()).withTransportLayerFactory(perf.transport()).build();
-   phase=PerfMetrics.now();
+   SmbConfig config=SmbConfig.builder().withTimeout(30,TimeUnit.SECONDS).withSoTimeout(30,TimeUnit.SECONDS).withSecurityProvider(new AndroidSecurityProvider()).withTransportLayerFactory(new WriteTransportFactory()).build();
    try(SMBClient client=new SMBClient(config);Connection c=client.connect(p.getString("host",""))){
-    perf.connectNs=PerfMetrics.now()-phase;phase=PerfMetrics.now();
-    perf.dialect=c.getNegotiatedProtocol().getDialect().name();perf.maxWrite=c.getNegotiatedProtocol().getMaxWriteSize();perf.cipher=String.valueOf(c.getConnectionContext().getCipherId());perf.serverRequiresSigning=c.getConnectionContext().isServerRequiresSigning();
     Session session;
     try{session=c.authenticate(new AuthenticationContext(p.getString("user",""),password,""));}finally{Arrays.fill(password,'\0');}
-    perf.authNs=PerfMetrics.now()-phase;perf.encrypted=session.shouldEncryptData();phase=PerfMetrics.now();
     try(DiskShare share=(DiskShare)session.connectShare(p.getString("share",""))){
-     perf.shareNs=PerfMetrics.now()-phase;
      int count=0;
-     byte[] buf=BuildConfig.PERF_WINDOW==1?new byte[BuildConfig.PERF_CHUNK]:null; // Reuse one bounded buffer for the whole batch.
+     int maxChunk=Math.min(1024*1024,c.getNegotiatedProtocol().getMaxWriteSize());
+     if(!c.getConnectionContext().supportsMultiCredit())maxChunk=Math.min(maxChunk,64*1024);
+     if(maxChunk<=0)throw new IOException("服务器返回了无效的写入限制");
      for(int fileIndex=0;fileIndex<uris.size();fileIndex++){
       Uri uri=uris.get(fileIndex);
       if(completed.contains(batch,fileIndex)){count++;continue;}
@@ -78,42 +74,28 @@ public class UploadService extends Service {
       name=Names.safe(name);final String temp=".smbshare-"+UUID.randomUUID()+".part";
       boolean renamed=false;
       try {
-       phase=PerfMetrics.now();
        try(InputStream in=getContentResolver().openInputStream(uri);
         com.hierynomus.smbj.share.File out=share.openFile(temp,EnumSet.of(AccessMask.GENERIC_WRITE,AccessMask.DELETE),EnumSet.of(FileAttributes.FILE_ATTRIBUTE_NORMAL),SMB2ShareAccess.ALL,SMB2CreateDisposition.FILE_CREATE,EnumSet.of(SMB2CreateOptions.FILE_NON_DIRECTORY_FILE))){
-        perf.openNs+=PerfMetrics.now()-phase;
         if(in==null)throw new IOException("无法读取文件");
-        long offset=0,last=0;int n;
-        update("上传 "+(count+1)+" / "+uris.size(),name,0);
-        if(BuildConfig.PERF_WINDOW>1){
-         int chunk=UploadPolicy.chunk(size,BuildConfig.PERF_CHUNK),window=UploadPolicy.window(size,chunk,BuildConfig.PERF_WINDOW);
-         WindowedUploader.Stats stats=new WindowedUploader.Stats();final long[] lastUpdate={0};final int number=count+1;final String displayName=name;final long displaySize=size;
-         try{
-          offset=WindowedUploader.copy(in,(data,pos,length)->{if(BuildConfig.PERF_FAIL_AFTER>0&&pos>=BuildConfig.PERF_FAIL_AFTER)throw new IOException("Synthetic write failure");return out.writeAsync(data,pos,0,length);},chunk,window,()->cancelled,confirmed->{
-           if(SystemClock.elapsedRealtime()-lastUpdate[0]>250){long uiStart=PerfMetrics.now();perf.heap();lastUpdate[0]=SystemClock.elapsedRealtime();update("上传 "+number+" / "+uris.size(),displayName+" · "+android.text.format.Formatter.formatShortFileSize(this,confirmed),displaySize>0?(int)Math.min(99,confirmed*100/displaySize):0);perf.uiNs+=PerfMetrics.now()-uiStart;}
-          },stats);
-         }finally{perf.readNs+=stats.readNs;perf.writeNs+=stats.submitNs+stats.waitNs;perf.submitNs+=stats.submitNs;perf.waitNs+=stats.waitNs;perf.bytes+=stats.confirmed;perf.peakInFlight=Math.max(perf.peakInFlight,stats.peakInFlight);}
-        }else{
-        while(true){
-         phase=PerfMetrics.now();n=in.read(buf);perf.readNs+=PerfMetrics.now()-phase;if(n==-1)break;
-         if(cancelled)throw new InterruptedIOException();
-         int done=0;while(done<n){phase=PerfMetrics.now();long wrote=out.write(buf,offset,done,n-done);perf.writeNs+=PerfMetrics.now()-phase;perf.bytes+=wrote;if(wrote<=0||wrote>n-done)throw new IOException("写入中断");done+=(int)wrote;offset+=wrote;}
-         if(SystemClock.elapsedRealtime()-last>250){phase=PerfMetrics.now();perf.heap();last=SystemClock.elapsedRealtime();update("上传 "+(count+1)+" / "+uris.size(),name+" · "+android.text.format.Formatter.formatShortFileSize(this,offset),size>0?(int)Math.min(99,offset*100/size):0);perf.uiNs+=PerfMetrics.now()-phase;}
-        }
-        }
+        int chunk=UploadPolicy.chunk(size,maxChunk),window=UploadPolicy.window(size,chunk,4);
+        final long[] lastUpdate={0};final int number=count+1;final String displayName=name;final long displaySize=size;
+        update("上传 "+number+" / "+uris.size(),name,0);
+        WindowedUploader.copy(in,(data,pos,length)->out.writeAsync(data,pos,0,length),chunk,window,()->cancelled,confirmed->{
+         if(SystemClock.elapsedRealtime()-lastUpdate[0]>250){
+          lastUpdate[0]=SystemClock.elapsedRealtime();
+          update("上传 "+number+" / "+uris.size(),displayName+" · "+android.text.format.Formatter.formatShortFileSize(this,confirmed),displaySize>0?(int)Math.min(99,confirmed*100/displaySize):0);
+         }
+        },new WindowedUploader.Stats());
         if(cancelled)throw new InterruptedIOException();
-        phase=PerfMetrics.now();
         for(int suffix=0;suffix<10000;suffix++){
          try{out.rename(Names.numbered(name,suffix),false);renamed=true;break;}
          catch(SMBApiException e){if(e.getStatusCode()!=0xC0000035L)throw e;}
         }
         if(!renamed)throw new IOException("同名文件过多");
        }
-       perf.finishNs+=PerfMetrics.now()-phase;
       }finally{if(!renamed)try{share.rm(temp);}catch(Exception ignored){}}
       completed.add(batch,fileIndex);count++;
      }
-     perf.outcome="success";
      update("传输完成",count+" 个文件已保存到 "+p.getString("share",""),100);
     }
    }finally{Arrays.fill(password,'\0');}
@@ -128,7 +110,6 @@ public class UploadService extends Service {
    else reason="请检查 Wi-Fi、Mac 是否唤醒、地址与密码；然后重试。";
    update(cancelled?"已取消":"传输失败",reason,0);
   }finally{
-   perf.report(this);
    // Publish idle only after resources are closed, serialized with onStartCommand.
    new Handler(getMainLooper()).post(()->{remember(activeBatch,new Snapshot(message,detail,percent,false,true));running=false;stopForeground(STOP_FOREGROUND_REMOVE);resultNotification();if(queue.isEmpty())stopSelf();else startNext();sendBroadcast(new Intent(UPDATE).setPackage(getPackageName()));});
   }
