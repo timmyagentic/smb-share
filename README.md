@@ -2,15 +2,15 @@
   <img src="website/assets/icon.svg" width="72" height="72" alt="SMB Share">
   <h1>SMB Share · SMB 分享</h1>
   <p><strong>在 Android 分享菜单里点一下，把文件直接送到 Mac。</strong></p>
-  <p>局域网直传 · 完成即通知 · 约 300 KiB · MIT 开源</p>
-  <p><a href="https://smb.timmyagentic.si">项目官网</a> · <a href="https://smb.timmyagentic.si/downloads/SMB-Share-1.0.0.apk">下载 1.0.0 APK</a> · <a href="#快速开始">快速开始</a> · <a href="#已知限制">已知限制</a> · <a href="https://github.com/timmyagentic/smb-share/issues">反馈问题</a></p>
+  <p>局域网直传 · 完成即通知 · 约 315 KiB · MIT 开源</p>
+  <p><a href="https://smb.timmyagentic.si">项目官网</a> · <a href="https://smb.timmyagentic.si/downloads/SMB-Share-1.1.1.apk">下载 1.1.1 APK</a> · <a href="#快速开始">快速开始</a> · <a href="#已知限制">已知限制</a> · <a href="https://github.com/timmyagentic/smb-share/issues">反馈问题</a></p>
 </div>
 
 SMB Share 是一个轻量的原生 Android 分享接收器。首次配置好 Mac 共享文件夹后，在文件管理器或相册中选择文件，打开系统分享菜单并点 **「SMB 分享」**，就会自动开始上传，完成后发送系统通知。总大小达到 32 MiB 或文件大小未知时，会自动打开专用传输进度页；小文件保持后台分享。
 
 文件通过 SMB2/3 在手机与目标共享服务器之间直接传输，无需电脑端客户端或云端中转。App 无广告、无分析 SDK，也不要求注册账户。
 
-> **当前开发版本：1.1.1-candidate；官网公开下载仍为 1.0.0。** 这是个人维护的早期项目。日常小文件分享已通过真机验证；部分手机系统会冻结长时间后台传输，详见[已知限制](#已知限制)。
+> **当前稳定版本：1.1.1。** 这是个人维护的早期项目。日常小文件分享已通过真机验证；部分手机系统会冻结长时间后台传输，详见[已知限制](#已知限制)。
 
 ## 真实软件截图
 
@@ -34,6 +34,10 @@ SMB Share 是一个轻量的原生 Android 分享接收器。首次配置好 Mac
   </tr>
 </table>
 
+大文件传输页（1.1.1 候选真机验收截图，与正式版使用同一上传实现）：
+
+<img src="website/assets/transfer-progress.png" width="280" alt="大文件传输进度页，显示百分比与保持前台亮屏提示">
+
 连接设置中的密码输入框默认隐藏，可选择显示。设置窗口启用了 Android 安全窗口标记，因此这里不展示该窗口的截图。
 
 ## 能做什么
@@ -46,8 +50,9 @@ SMB Share 是一个轻量的原生 Android 分享接收器。首次配置好 Mac
 | 完成后再改名 | 先写入 `.smbshare-*.part`，成功后改为正式文件名 |
 | 本地保存凭证 | 使用 Android Keystore AES-GCM 加密，密码不回填到设置输入框 |
 | 手动选择与取消 | 可在主界面选择文件、发送到 Mac、取消当前传输 |
-| 流式上传 | 每批复用 128 KiB 应用层缓冲区，不将整个文件载入内存 |
-| 轻量实现 | Java + Android 原生控件，无 WebView；APK 约 300 KiB |
+| 大文件进度页 | 32 MiB 起或大小未知时自动显示，传输期间保持亮屏；请保持前台 |
+| 有界流水线上传 | 最多 1 MiB 分块、4 个在途请求，不将整个文件载入内存 |
+| 轻量实现 | Java + Android 原生控件，无 WebView；APK 约 315 KiB |
 
 ## 安装
 
@@ -55,14 +60,14 @@ SMB Share 是一个轻量的原生 Android 分享接收器。首次配置好 Mac
 - 接收端：已启用 SMB2/3 的共享文件夹；当前主要验证 macOS 文件共享。
 - 网络：手机与接收端可通过局域网互相访问，目标 SMB 端口为 **445**。
 
-**[下载 SMB Share 1.0.0 APK](https://smb.timmyagentic.si/downloads/SMB-Share-1.0.0.apk)**
+**[下载 SMB Share 1.1.1 APK](https://smb.timmyagentic.si/downloads/SMB-Share-1.1.1.apk)**
 
 安装时，Android 可能要求允许浏览器或文件管理器安装未知来源应用。首次使用请允许 App 的通知权限，以便查看上传结果。
 
 可使用 [SHA256SUMS.txt](https://smb.timmyagentic.si/downloads/SHA256SUMS.txt) 核对下载文件：
 
 ```bash
-shasum -a 256 SMB-Share-1.0.0.apk
+shasum -a 256 SMB-Share-1.1.1.apk
 ```
 
 当前 APK 是个人使用构建，使用开发签名，并非应用商店发行版。覆盖升级需使用相同签名；自行构建的 APK 可能无法直接覆盖官网构建。源码中的 `versionName` 是用户可见版本，`versionCode` 是持续递增的 Android 内部升级编号。
@@ -97,7 +102,8 @@ Mac 应保持唤醒，并与手机处于能够互访的网络；访客 Wi-Fi 或
 1. 在文件管理器或相册中选中一个或多个文件。
 2. 打开系统分享菜单，选择 **SMB 分享**。
 3. 配置和通知权限齐备时，上传会自动开始，无需再点「发送到 Mac」。
-4. 等待 **「已发送到 Mac」** 通知，再到共享文件夹查看结果。
+4. 大文件自动打开传输进度页，请保持前台、不要锁屏；小文件可留在原应用等待通知。
+5. 确认 **「传输完成」** 或 **「已发送到 Mac」** 通知，再到共享文件夹查看结果。
 
 首次使用时可能先进入配置或权限界面。已有传输尚未结束时，新分享会加入队列。
 
@@ -116,11 +122,13 @@ Mac 应保持唤醒，并与手机处于能够互访的网络；访客 Wi-Fi 或
 
 ## 已知限制
 
-### 性能候选方案
+### 大文件性能
 
-1.1.1 候选使用最多 1 MiB 分块、4 个有界在途分块、平台 AES-CMAC 实现（不支持时回退到原实现），并按写入大小预留独立序列化缓冲。小文件按大小缩减缓冲，所有写入得到确认后才重命名为最终文件。
+1.1.1 使用最多 1 MiB 分块、4 个有界在途分块、平台 AES-CMAC 实现（不支持时回退到原实现），并按写入大小预留独立序列化缓冲。小文件按大小缩减缓冲，所有写入得到确认后才重命名为最终文件。
 
 2026-10-11 至 2026-10-12，在 vivo V2502DA / Android 16、充电和前台亮屏、Mac 千兆有线口的同一系统分享链路中，256 MiB 从约 25.4 秒降到约 2.8–3.2 秒；1 GiB 两次约 9.49–9.66 秒，SHA-256 一致。这是指定设备与局域网的实测，不代表所有环境速度。保持服务器要求的 SMB 签名。4 MiB 是应用数据缓冲上限，整个进程还会占用库、界面及临时对象内存。
+
+性能数值来自同一上传实现的诊断构建内部计时，包含连接认证。去除诊断的候选 APK 也完成了 1 GiB 哈希验证，外部轮询约 10.54 秒确认结束；该观察时间包含采样延迟。完整方法与边界见 [性能说明](docs/performance.md)。
 
 构建验证：`./gradlew :app:assembleRelease :app:testReleaseUnitTest :app:lintRelease`。真机密码学自检构建需额外使用 `-PcryptoTest=true :app:assembleReleaseAndroidTest`，安装对应主 APK 与测试 APK 后运行 `adb shell am instrument -w local.smbshare.test/local.smbshare.CryptoInstrumentation`。
 
@@ -128,7 +136,7 @@ Mac 应保持唤醒，并与手机处于能够互访的网络；访客 Wi-Fi 或
 
 目前在 vivo Android 16 上，**16 MiB 文件的实际后台分享、文件 SHA-256 和完成通知已验证通过**。但 **128 MiB 长传输曾被厂商系统冻结，恢复前台后失败**。这一问题尚未解决，不能把小文件测试视作任意大小文件都能可靠后台传输。
 
-1.1.0 从系统分享接收总大小达到 **32 MiB** 的文件（或大小未知的文件）时，会自动打开专用进度页，显示当前文件进度、成功或失败状态。请保持该页面在前台，不要锁屏；页面在传输期间自动保持亮屏，完成、失败或取消后解除。返回键会提醒离开页面的风险；Home 键、手动锁屏和系统切换仍可能中断传输。
+从系统分享接收总大小达到 **32 MiB** 的文件（或大小未知的文件）时，会自动打开专用进度页，显示当前文件进度、成功或失败状态。请保持该页面在前台，不要锁屏；页面在传输期间自动保持亮屏，完成、失败或取消后解除。返回键会提醒离开页面的风险；Home 键、手动锁屏和系统切换仍可能中断传输。
 
 其他品牌、Android 版本及厂商省电策略尚未完整验证。大文件传输请确认接收端文件完整，并以成功状态为准。
 
@@ -202,13 +210,15 @@ adb install -r app/build/outputs/apk/release/app-release.apk
 ```text
 app/src/main/java/local/smbshare/
 ├── MainActivity.java   # 主界面与连接设置
-├── ShareActivity.java  # 无窗口分享入口，交接到上传服务
+├── ShareActivity.java  # 系统分享入口，按文件大小选择界面
+├── TransferActivity.java # 大文件进度与亮屏提示
+├── WindowedUploader.java # 有界在途请求、确认与取消
 ├── UploadService.java  # 队列、SMB 上传、取消及通知
 ├── Vault.java          # 本地凭证加密
 ├── Names.java          # 文件名清理与同名处理
 └── RetryHistory.java   # 有界批次进度记录
-app/src/test/           # 文件名与重试记录单元测试
-website/                # 官网、真实截图、1.0.0 下载与校验值
+app/src/test/           # 文件名、重试、窗口、签名与序列化单元测试
+website/                # 官网、真实截图、1.1.1 下载与校验值
 ```
 
 ## 官网开发
@@ -227,7 +237,7 @@ node scripts/build-website.mjs
 
 ## 验证与参与
 
-现有单元测试覆盖非法文件名、路径穿越字符、Unicode 长文件名、同名后缀以及有界重试记录。真机验证还需检查分享授权、SMB 认证、文件内容一致性、取消/失败和通知行为。
+现有 24 项单元测试覆盖文件名与重试记录、分享页面策略、服务器限制、在途缓冲生命周期、写入确认、取消/超时、签名回退与序列化一致性。真机验证还需检查分享授权、SMB 认证、文件内容一致性、取消/失败和通知行为。
 
 欢迎提交 Issue 或 Pull Request。报告问题时，请附上手机型号、Android 版本、接收端系统、文件大小和复现步骤；请去除密码、个人文件内容以及截图中的私人信息。
 
@@ -241,4 +251,4 @@ node scripts/build-website.mjs
 
 ---
 
-**English:** SMB Share is a small native Android share target that uploads selected files directly to a Mac or SMB2/3 share on your local network. Configure the destination once, choose “SMB 分享” in the system share sheet, and receive a notification when the upload completes. No desktop companion or cloud relay is required. Android 9+, MIT licensed. Long-running background transfers are not yet reliable on some OEM devices; see the limitations above before use.
+**English:** SMB Share is a small native Android share target that uploads selected files directly to a Mac or SMB2/3 share on your local network. Configure the destination once, choose “SMB 分享” in the system share sheet, and receive a notification when the upload completes. No desktop companion or cloud relay is required. Version 1.1.1 uses bounded four-request pipelining for large files. Shares of 32 MiB or unknown size open a progress page that keeps the screen awake; keep this page in the foreground. Android 9+, MIT licensed. Long-running background transfers are not yet reliable on some OEM devices; see the limitations above before use.
