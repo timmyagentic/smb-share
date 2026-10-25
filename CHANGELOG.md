@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- 使用 Cloudflare 自定义域名接管旧 Sites 的 CNAME 入口，并记录原 DNS 回退目标。
+
 - 官网迁移到 Cloudflare，保留原域名、全部 APK 下载路径与文件字节。
 - README 与官网增加可复制的 Agent 安装提示词，串起 APK 校验、手机权限、共享配置和接收端文件验收，保留原安装及下载入口。
 
