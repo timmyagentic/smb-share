@@ -1,0 +1,17 @@
+{
+  "name": "smb-share-site",
+  "compatibility_date": "2026-10-25",
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": ".",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "routes": [
+    {
+      "pattern": "smb.timmyagentic.si",
+      "custom_domain": true
+    }
+  ]
+}
