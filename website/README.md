@@ -12,7 +12,7 @@ python3 -m http.server 8787 --directory website
 npx wrangler deploy --config website/wrangler.jsonc --dry-run
 ```
 
-Check desktop and 390 px layouts, prompt copy/fallback, screenshot dialogs, manual setup links and downloads. Deploy only after the PR review/merge gates. A temporary staging config with no routes and a distinct Worker name can verify assets before a domain cutover.
+Check desktop and 390 px layouts, direct APK download, the first-use setup link, the desktop QR and screenshot dialogs. Deploy only after the PR review/merge gates. A temporary staging config with no routes and a distinct Worker name can verify assets before a domain cutover.
 
 ```sh
 npx wrangler deploy --config website/wrangler.jsonc
