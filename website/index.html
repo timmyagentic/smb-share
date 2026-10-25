@@ -40,6 +40,13 @@
   <div><span class="principle-num">02 / 直接</span><h2>文件直接到你的 Mac</h2><p>通过 SMB2/3 发送到你配置的共享文件夹，完成后给你一条通知。</p></div>
   <div><span class="principle-num">03 / 克制</span><h2>小到没有负担</h2><p>原生 Android 实现，约 315 KiB。没有广告，也没有分析 SDK。</p></div>
  </div></section>
+ <section id="agent-install" class="section wrap">
+  <div class="section-heading"><div><span class="eyebrow muted">交给本地 Agent</span><h2>复制一句话，<br>一起完成首次分享。</h2></div><p>Agent 帮你下载、校验和检查。<br>手机权限与密码由你填写。</p></div>
+  <pre id="install-prompt" class="agent-prompt">请按 https://raw.githubusercontent.com/timmyagentic/smb-share/main/INSTALL.md 帮我安装并配置 SMB Share，校验正式 APK，保留已有手机配置、Mac 共享和文件；需要手机授权或密码时由我完成，最后从系统分享菜单传一个测试文件并在接收端核对大小和哈希，未完成步骤明确说明。</pre>
+  <button class="button button-primary" id="copy-install-prompt" type="button">复制安装提示词</button>
+  <span id="copy-install-status" role="status" aria-live="polite"></span>
+  <p class="guide-link"><a href="https://github.com/timmyagentic/smb-share/blob/main/INSTALL.md">阅读完整安装指南 →</a></p>
+ </section>
  <section id="how" class="section wrap how-section">
   <div class="section-heading"><div><span class="eyebrow muted">从这里开始</span><h2>设置一次，<br>以后交给分享菜单。</h2></div><p>手机和 Mac 连接同一局域网。<br>接收端使用 Mac 自带的文件共享。</p></div>
   <div class="setup-grid">
