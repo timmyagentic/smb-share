@@ -10,8 +10,8 @@
   },
   "routes": [
     {
-      "pattern": "smb.timmyagentic.si",
-      "custom_domain": true
+      "pattern": "smb.timmyagentic.si/*",
+      "zone_name": "timmyagentic.si"
     }
   ]
 }

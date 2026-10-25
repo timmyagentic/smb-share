@@ -239,7 +239,7 @@ python3 -m http.server 8787 --directory website
 node scripts/build-website.mjs
 ```
 
-部署目录为被 Git 忽略的 `dist/`。官网图片来自真机截图；请勿提交包含个人信息的截图或签名密钥。
+当前官网通过 Cloudflare Worker 的精确域名路由发布，保持原 DNS 和下载路径；验证、部署及回退见 [官网说明](website/README.md)。上面的历史构建命令仍可输出被 Git 忽略的 `dist/`，Cloudflare 直接使用 `website/`。官网图片来自真机截图；请勿提交包含个人信息的截图或签名密钥。
 
 ## 验证与参与
 
