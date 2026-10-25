@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+
+- 统一默认分支 PR 保护、squash 合并和远程分支自动删除，本地分支与 worktree 沿用现有归档流程。
 - 使用 Cloudflare 自定义域名接管旧 Sites 的 CNAME 入口，并记录原 DNS 回退目标。
 
 - 官网迁移到 Cloudflare，保留原域名、全部 APK 下载路径与文件字节。
