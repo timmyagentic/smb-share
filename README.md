@@ -12,12 +12,6 @@ SMB Share 是一个轻量的原生 Android 分享接收器。首次配置好 Mac
 
 > **当前稳定版本：1.1.1。** 这是个人维护的早期项目。日常小文件分享已通过真机验证；部分手机系统会冻结长时间后台传输，详见[已知限制](#已知限制)。
 
-## 交给 Agent 安装
-
-> 请按 https://raw.githubusercontent.com/timmyagentic/smb-share/main/INSTALL.md 帮我安装并配置 SMB Share，校验正式 APK，保留已有手机配置、Mac 共享和文件；需要手机授权或密码时由我完成，最后从系统分享菜单传一个测试文件并在接收端核对大小和哈希，未完成步骤明确说明。
-
-[完整 Agent 安装指南](INSTALL.md)说明可自动执行的步骤、手机授权和真实文件验收。
-
 ## 真实软件截图
 
 以下图片直接截取自 **vivo V2502DA / Android 16 上的 1.0.0 实际应用与系统界面**，未经 AI 生成或重绘。分享面板和通知样式因手机而异。点击图片可查看原图。
@@ -67,6 +61,8 @@ SMB Share 是一个轻量的原生 Android 分享接收器。首次配置好 Mac
 - 网络：手机与接收端可通过局域网互相访问，目标 SMB 端口为 **445**。
 
 **[下载 SMB Share 1.1.1 APK](https://smb.timmyagentic.si/downloads/SMB-Share-1.1.1.apk)**
+
+[安装与首次使用说明](INSTALL.md)提供手机安装、共享配置和首次传输步骤。
 
 安装时，Android 可能要求允许浏览器或文件管理器安装未知来源应用。首次使用请允许 App 的通知权限，以便查看上传结果。
 
