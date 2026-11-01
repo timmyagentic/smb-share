@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- 官网随浏览器宽高铺开，适配大屏、超宽、平板和手机横竖屏，并完整保留内容与操作入口。
 - Add one required Android CI job for existing release unit tests, lint and APK compilation without device, server or publishing access.
 
 
