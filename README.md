@@ -6,59 +6,13 @@
   <p><a href="https://smb.timmyagentic.si">项目官网</a> · <a href="https://smb.timmyagentic.si/downloads/SMB-Share-1.1.1.apk">下载 1.1.1 APK</a> · <a href="#快速开始">快速开始</a> · <a href="#已知限制">已知限制</a> · <a href="https://github.com/timmyagentic/smb-share/issues">反馈问题</a></p>
 </div>
 
-SMB Share 是一个轻量的原生 Android 分享接收器。首次配置好 Mac 共享文件夹后，在文件管理器或相册中选择文件，打开系统分享菜单并点 **「SMB 分享」**，就会自动开始上传，完成后发送系统通知。总大小达到 32 MiB 或文件大小未知时，会自动打开专用传输进度页；小文件保持后台分享。
-
-文件通过 SMB2/3 在手机与目标共享服务器之间直接传输，无需电脑端客户端或云端中转。App 无广告、无分析 SDK，也不要求注册账户。
-
-> **当前稳定版本：1.1.1。** 小文件在后台发送，大文件自动打开进度页并保持亮屏。在 vivo Android 16 真机上，前台传输 1 GiB 文件已通过 [SHA-256 校验](docs/performance.md)。
+手机和 Mac 连上同一局域网后，从 Android 分享菜单选择 **SMB 分享**，文件就会直接写入 Mac 的共享文件夹。Mac 无需安装客户端，文件不经过云端。
 
 ## 分享演示
 
 ![从 Android 原生分享面板选择 SMB 分享，在 Mac 共享目录打开收到的原图](docs/share-demo.gif)
 
 [高清 MP4（7.8 秒）](https://smb.timmyagentic.si/assets/share-demo.mp4) · [首次配置教程](#快速开始)
-
-## 真实软件截图
-
-以下图片直接截取自 **vivo V2502DA / Android 16 上的 1.0.0 实际应用与系统界面**，未经 AI 生成或重绘。分享面板和通知样式因手机而异。点击图片可查看原图。
-
-<table>
-  <tr>
-    <th align="center">① 主界面</th>
-    <th align="center">② 系统分享入口</th>
-    <th align="center">③ 传输成功通知</th>
-  </tr>
-  <tr>
-    <td align="center"><a href="website/assets/app-home.png"><img src="website/assets/app-home.png" width="245" alt="SMB 分享主界面，含选择文件、发送到 Mac 和连接设置按钮"></a></td>
-    <td align="center"><a href="website/assets/share-sheet.png"><img src="website/assets/share-sheet.png" width="245" alt="系统分享菜单中的 SMB 分享入口"></a></td>
-    <td align="center"><a href="website/assets/upload-done.png"><img src="website/assets/upload-done.png" width="245" alt="系统成功通知：已发送到 Mac，1 个文件已保存到 PhoneInbox"></a></td>
-  </tr>
-  <tr>
-    <td align="center">配置接收端，也可手动选文件</td>
-    <td align="center">点一下，自动开始上传</td>
-    <td align="center">保持在原应用，完成后通知</td>
-  </tr>
-</table>
-
-大文件传输页（1.1.1 候选真机验收截图，与正式版使用同一上传实现）：
-
-<img src="website/assets/transfer-progress.png" width="280" alt="大文件传输进度页，显示百分比与保持前台亮屏提示">
-
-连接设置中的密码输入框默认隐藏，可选择显示。设置窗口启用了 Android 安全窗口标记，因此这里不展示该窗口的截图。
-
-## 能做什么
-
-| 功能 | 行为 |
-| --- | --- |
-| 系统分享入口 | 接收其他 App 分享的一个或多个文件；已完成配置时自动上传 |
-| 后台传输与通知 | 使用前台服务展示传输状态，完成后显示成功或失败通知 |
-| 同名文件保护 | 自动使用 `文件名 (1).扩展名` 等后缀，不覆盖已有文件 |
-| 完成后再改名 | 先写入 `.smbshare-*.part`，成功后改为正式文件名 |
-| 本地保存凭证 | 使用 Android Keystore AES-GCM 加密，密码不回填到设置输入框 |
-| 手动选择与取消 | 可在主界面选择文件、发送到 Mac、取消当前传输 |
-| 大文件进度页 | 32 MiB 起或大小未知时自动显示，传输期间保持亮屏；请保持前台 |
-| 有界流水线上传 | 最多 1 MiB 分块、4 个在途请求，不将整个文件载入内存 |
-| 轻量实现 | Java + Android 原生控件，无 WebView；APK 约 315 KiB |
 
 ## 安装
 
@@ -116,6 +70,48 @@ Mac 应保持唤醒，并与手机处于能够互访的网络；访客 Wi-Fi 或
 首次使用时可能先进入配置或权限界面。已有传输尚未结束时，新分享会加入队列。
 
 如果从 SMB Share 主界面点「选择文件」，则需要再点「发送到 Mac」。需要中止时，可在主界面点「取消传输」。
+
+## 能做什么
+
+| 功能 | 行为 |
+| --- | --- |
+| 系统分享入口 | 接收其他 App 分享的一个或多个文件；已完成配置时自动上传 |
+| 后台传输与通知 | 使用前台服务展示传输状态，完成后显示成功或失败通知 |
+| 同名文件保护 | 自动使用 `文件名 (1).扩展名` 等后缀，不覆盖已有文件 |
+| 完成后再改名 | 先写入 `.smbshare-*.part`，成功后改为正式文件名 |
+| 本地保存凭证 | 使用 Android Keystore AES-GCM 加密，密码不回填到设置输入框 |
+| 手动选择与取消 | 可在主界面选择文件、发送到 Mac、取消当前传输 |
+| 大文件进度页 | 32 MiB 起或大小未知时自动显示，传输期间保持亮屏；请保持前台 |
+| 有界流水线上传 | 最多 1 MiB 分块、4 个在途请求，不将整个文件载入内存 |
+| 轻量实现 | Java + Android 原生控件，无 WebView；APK 约 315 KiB |
+
+## 真实软件截图
+
+以下图片直接截取自 **vivo V2502DA / Android 16 上的 1.0.0 实际应用与系统界面**，未经 AI 生成或重绘。分享面板和通知样式因手机而异。点击图片可查看原图。
+
+<table>
+  <tr>
+    <th align="center">① 主界面</th>
+    <th align="center">② 系统分享入口</th>
+    <th align="center">③ 传输成功通知</th>
+  </tr>
+  <tr>
+    <td align="center"><a href="website/assets/app-home.png"><img src="website/assets/app-home.png" width="245" alt="SMB 分享主界面，含选择文件、发送到 Mac 和连接设置按钮"></a></td>
+    <td align="center"><a href="website/assets/share-sheet.png"><img src="website/assets/share-sheet.png" width="245" alt="系统分享菜单中的 SMB 分享入口"></a></td>
+    <td align="center"><a href="website/assets/upload-done.png"><img src="website/assets/upload-done.png" width="245" alt="系统成功通知：已发送到 Mac，1 个文件已保存到 PhoneInbox"></a></td>
+  </tr>
+  <tr>
+    <td align="center">配置接收端，也可手动选文件</td>
+    <td align="center">点一下，自动开始上传</td>
+    <td align="center">保持在原应用，完成后通知</td>
+  </tr>
+</table>
+
+大文件传输页（1.1.1 候选真机验收截图，与正式版使用同一上传实现）：
+
+<img src="website/assets/transfer-progress.png" width="280" alt="大文件传输进度页，显示百分比与保持前台亮屏提示">
+
+连接设置中的密码输入框默认隐藏，可选择显示。设置窗口启用了 Android 安全窗口标记，因此这里不展示该窗口的截图。
 
 ## 权限与数据
 
