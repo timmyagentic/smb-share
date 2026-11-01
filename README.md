@@ -14,9 +14,9 @@ SMB Share 是一个轻量的原生 Android 分享接收器。首次配置好 Mac
 
 ## 分享演示
 
-[![从 Android 原生分享面板选择 SMB 分享，在 Mac 共享目录打开收到的原图](website/assets/share-demo-poster.jpg)](https://smb.timmyagentic.si/assets/share-demo.mp4)
+![从 Android 原生分享面板选择 SMB 分享，在 Mac 共享目录打开收到的原图](docs/share-demo.gif)
 
-[观看 7.8 秒真机演示](https://smb.timmyagentic.si/assets/share-demo.mp4) · [首次配置教程](#快速开始)
+[高清 MP4（7.8 秒）](https://smb.timmyagentic.si/assets/share-demo.mp4) · [首次配置教程](#快速开始)
 
 ## 真实软件截图
 
