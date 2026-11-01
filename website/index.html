@@ -30,17 +30,17 @@
    <div class="eyebrow"><span class="dot"></span> 一个小工具，少绕一点路</div>
    <h1>把文件，<br>直接送到 <em>Mac。</em></h1>
    <p class="hero-lead">照片、文档、随手保存的文件。<br>在 Android 分享菜单里点一下，<br class="mobile-break">就能通过局域网传到你的 Mac。<br>大文件自动显示进度，传输期间保持亮屏。</p>
-   <div class="hero-actions"><a class="button button-primary" href="/downloads/SMB-Share-1.1.1.apk" download><span aria-hidden="true">↓</span> 下载 Android 版</a><a class="button button-outline" href="https://github.com/timmyagentic/smb-share">查看源码 <span aria-hidden="true">↗</span></a></div>
+   <div class="hero-actions"><a class="button button-primary" href="/downloads/SMB-Share-1.1.1.apk" download><span aria-hidden="true">↓</span> 下载 Android 版</a><details class="phone-download"><summary>用手机扫码安装</summary><div class="phone-download-card"><img src="/assets/download-qr.svg" width="132" height="132" alt="扫码在手机打开 SMB Share 官网"><div><p>用手机扫码，查看安装说明并下载 APK。</p><a href="#before-download">下载前注意事项 →</a></div></div></details></div>
    <p class="download-note">v1.1.1 <span>·</span> Android 9+ <span>·</span> 约 315 KiB <span>·</span> MIT 开源</p>
-   <a href="#how" class="text-link small">首次使用？先看配置步骤 <span aria-hidden="true">→</span></a>
-   <details class="phone-download"><summary>在 Android 手机上打开</summary><div class="phone-download-card"><img src="/assets/download-qr.svg" width="132" height="132" alt="扫码在手机打开 SMB Share 官网"><div><p>用手机扫码，查看安装说明并下载 APK。</p><a href="#before-download">下载前注意事项 →</a></div></div></details><div class="hero-bottom"><span>无需电脑客户端</span><span>无广告</span><span>无需云端中转</span></div>
+   <div class="support-links"><a href="#how" class="text-link">首次使用？先看配置步骤 <span aria-hidden="true">→</span></a><a class="text-link" href="https://github.com/timmyagentic/smb-share">查看源码 ↗</a></div>
+   <div class="hero-bottom"><span>无需电脑客户端</span><span>无广告</span><span>无需云端中转</span></div>
   </div>
   <figure class="hero-demo" id="demo">
-   <video autoplay muted loop playsinline preload="auto" poster="/assets/share-demo-poster.jpg" width="1920" height="1080" aria-label="SMB Share 真机演示：从 Android 系统分享面板发送原图到 Mac">
+   <video id="demo-video" controls muted loop playsinline preload="metadata" poster="/assets/share-demo-poster.jpg" width="1920" height="1080" aria-label="SMB Share 真机演示：从 Android 系统分享面板发送原图到 Mac">
     <source src="/assets/share-demo.mp4" type="video/mp4">
     <a href="/assets/share-demo.mp4">观看 7.8 秒真机演示</a>
    </video>
-   <figcaption>在系统分享面板点一下，原图就到 Mac。</figcaption>
+   <figcaption>在系统分享面板点一下，原图就到 Mac。 <button class="demo-playback" type="button" data-demo-playback aria-controls="demo-video" hidden>播放演示</button></figcaption>
   </figure>
  </section>
  <section class="principles" aria-label="产品特点"><div class="wrap principle-grid">
