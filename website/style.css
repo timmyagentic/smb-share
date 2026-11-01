@@ -16,3 +16,12 @@
 @media (max-width: 760px) { .phone-download { display: none; } .footer>div { flex-wrap: wrap; } }
 
 .hero-demo{margin:0;min-width:0}.hero-demo video{display:block;width:100%;height:auto;aspect-ratio:16/9;border:1px solid var(--line);border-radius:16px;background:var(--mint)}.hero-demo figcaption{margin-top:14px;font-size:12px;color:var(--muted);text-align:center}
+
+.hero-actions { align-items: flex-start; }
+.hero-actions .phone-download { margin: 0; }
+.hero-actions .phone-download summary { display: inline-flex; align-items: center; min-height: 48px; padding-inline: 16px; border: 1px solid var(--green); border-radius: 8px; color: var(--green); }
+.support-links { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.support-links .text-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; }
+.setup-step .step-foot, .screen-grid figcaption p { font-size: 13px; color: #465d4d; }
+
+.demo-playback { min-height: 44px; border: 0; background: transparent; color: inherit; font: inherit; text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }
