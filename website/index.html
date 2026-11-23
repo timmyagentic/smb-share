@@ -19,6 +19,8 @@
 <meta name="twitter:image:alt" content="SMB Share — 手机里的文件，顺手传到电脑。">
 <link rel="stylesheet" href="/viewport.css">
 <script src="/viewport.js" defer></script>
+<link rel="stylesheet" href="/ui/gallery.css">
+<script type="module" src="/ui/gallery.js"></script>
 </head>
 <body class="viewport-home" data-viewport-page>
 <a class="skip" href="#main">跳到正文</a>
@@ -63,9 +65,9 @@
   <div class="wrap">
    <div class="section-heading"><div><span class="eyebrow muted">看看实际的样子</span><h2>在你的手机上，<br>就是这么简单。</h2></div><p>均为 Android 16 真机截图：前两张来自 v1.0.0，<br>进度页来自 v1.1.1 候选验收，与正式版界面一致。</p></div>
    <div class="screen-grid">
-    <figure><button class="screenshot-open screen-frame" data-image="/assets/app-home.png" data-caption="01 · 主界面：配置接收端，也可手动选择文件" aria-label="放大主界面截图"><img src="/assets/app-home.png" alt="SMB 分享主界面真实截图" width="1260" height="2800" loading="lazy"></button><figcaption><span>01</span><div><strong>一个简单的入口</strong><p>连接设置，或手动选择文件。</p></div></figcaption></figure>
-    <figure><button class="screenshot-open screen-frame" data-image="/assets/share-sheet.png" data-caption="02 · 系统分享菜单：选择 SMB 分享后自动开始上传" aria-label="放大系统分享菜单截图"><img src="/assets/share-sheet.png" alt="vivo 系统分享菜单中的 SMB 分享入口，选中一个测试文件" width="1260" height="2800" loading="lazy"></button><figcaption><span>02</span><div><strong>在熟悉的分享菜单里</strong><p>点「SMB 分享」，就开始传。</p></div></figcaption></figure>
-    <figure><button class="screenshot-open screen-frame" data-image="/assets/transfer-progress.png" data-caption="03 · 大文件传输：1.1.1 候选真机验收，保持前台与亮屏" aria-label="放大大文件传输进度截图"><img src="/assets/transfer-progress.png" alt="大文件传输进度与保持前台、不要锁屏提示" width="1260" height="2800" loading="lazy"></button><figcaption><span>03</span><div><strong>大文件，进度看得见</strong><p>自动保持亮屏，完成后即可离开。</p></div></figcaption></figure>
+    <figure><a class="screenshot-open screen-frame" href="/assets/app-home.png" aria-label="放大主界面截图" data-gallery-title="配置接收端"><img src="/assets/app-home.png" alt="SMB 分享主界面真实截图" width="1260" height="2800" loading="lazy"></a><figcaption><span>01</span><div><strong>一个简单的入口</strong><p>连接设置，或手动选择文件。</p></div></figcaption></figure>
+    <figure><a class="screenshot-open screen-frame" href="/assets/share-sheet.png" aria-label="放大系统分享菜单截图" data-gallery-title="系统分享菜单"><img src="/assets/share-sheet.png" alt="vivo 系统分享菜单中的 SMB 分享入口，选中一个测试文件" width="1260" height="2800" loading="lazy"></a><figcaption><span>02</span><div><strong>在熟悉的分享菜单里</strong><p>点「SMB 分享」，就开始传。</p></div></figcaption></figure>
+    <figure><a class="screenshot-open screen-frame" href="/assets/transfer-progress.png" aria-label="放大大文件传输进度截图" data-gallery-title="查看传输进度"><img src="/assets/transfer-progress.png" alt="大文件传输进度与保持前台、不要锁屏提示" width="1260" height="2800" loading="lazy"></a><figcaption><span>03</span><div><strong>大文件，进度看得见</strong><p>自动保持亮屏，完成后即可离开。</p></div></figcaption></figure>
    </div>
   </div>
  </section>
@@ -100,5 +102,5 @@
  <section class="last-call wrap"><div><span class="eyebrow">开源，小巧，直达。</span><h2>下一个文件，<br class="mobile-break">分享给 Mac。</h2></div><div><a class="button button-light" href="/downloads/SMB-Share-1.1.1.apk" download>下载 SMB Share 1.1.1 <span aria-hidden="true">↓</span></a><a class="checksum" href="/downloads/SHA256SUMS.txt">查看 SHA-256 校验值</a></div></section>
 </main>
 <footer class="footer wrap"><a class="brand" href="/"><img src="/assets/icon.svg" width="28" height="28" alt=""><span>SMB Share</span></a><p>一个由 <a href="https://timmyagentic.si/">timmyagentic</a> 维护的开源小工具。</p><div><a href="https://timmyagentic.si/#work">更多工具 ↗</a><a href="https://github.com/timmyagentic/smb-share">GitHub ↗</a><a href="https://github.com/timmyagentic/smb-share/blob/main/LICENSE">MIT License</a></div></footer>
-<dialog id="image-dialog" aria-labelledby="image-caption"><div class="dialog-top"><p id="image-caption"></p><button id="dialog-close" aria-label="关闭大图">关闭 <span aria-hidden="true">×</span></button></div><img id="dialog-image" alt=""></dialog>
+
 </body></html>
