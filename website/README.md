@@ -1,5 +1,7 @@
 # SMB Share website
 
+Source for the React and HeroUI interface lives in `../interface/`. Run `npm ci && npm run build` there after editing components. Commit the generated HTML and local assets with their source.
+
 Static HTML, CSS, JavaScript, screenshots and official APK downloads. Production: https://smb.timmyagentic.si/.
 
 The Cloudflare Worker `smb-share-site` serves this directory through the `smb.timmyagentic.si` Custom Domain. The former DNS-only CNAME pointed to `custom-domains.chatgpt.site`; a Worker route alone cannot intercept requests still reaching that origin. The legacy `.openai/hosting.json` is historical metadata; do not publish new versions to that unavailable Sites project. The migration preserves every `/downloads/` file, including the older APK, without rebuilding or re-signing it.

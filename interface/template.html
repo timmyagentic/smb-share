@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#194c3f">
+<title>SMB Share · 把文件，直接送到 Mac</title>
+<meta name="description" content="一个约 315 KiB 的开源 Android 分享工具。在系统分享菜单中选择 SMB 分享，将文件通过局域网直接送到 Mac，完成后收到通知。">
+<link rel="canonical" href="https://smb.timmyagentic.si/">
+<meta property="og:type" content="website"><meta property="og:title" content="SMB Share · 把文件，直接送到 Mac"><meta property="og:description" content="小巧的 Android 分享工具。局域网直传，完成即通知。开源，MIT 许可。"><meta property="og:url" content="https://smb.timmyagentic.si/">
+<link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css"><script src="/site.js" defer></script>
+<meta property="og:image" content="https://smb.timmyagentic.si/assets/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="SMB Share — 手机里的文件，顺手传到电脑。">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://smb.timmyagentic.si/assets/social-card.png">
+<meta name="twitter:image:alt" content="SMB Share — 手机里的文件，顺手传到电脑。">
+<link rel="stylesheet" href="/viewport.css">
+<script src="/viewport.js" defer></script>
+<link rel="stylesheet" href="/ui/gallery.css">
+<script type="module" src="/ui/gallery.js"></script>
+<link rel="stylesheet" id="react-aria-pressable-style" href="/product-ui/product.css">
+<script type="module" src="/product-ui/product.js" integrity="__PRODUCT_INTEGRITY__"></script>
+</head>
+<body class="viewport-home" data-viewport-page data-product-edition="smb">
+<a class="skip" href="#main">跳到正文</a>
+<!--product:header-->
+<main id="main">
+ <!--product:hero-->
+ <section class="principles" aria-label="产品特点"><div class="wrap principle-grid">
+  <div><span class="principle-num">01 / 简单</span><h2>在分享菜单里完成</h2><p>设置一次。之后选好文件，点「SMB 分享」，自动开始上传。</p></div>
+  <div><span class="principle-num">02 / 直接</span><h2>文件直接到你的 Mac</h2><p>通过 SMB2/3 发送到你配置的共享文件夹，完成后给你一条通知。</p></div>
+  <div><span class="principle-num">03 / 克制</span><h2>小到没有负担</h2><p>原生 Android 实现，约 315 KiB。没有广告，也没有分析 SDK。</p></div>
+ </div></section>
+ <section id="how" class="section wrap how-section">
+  <div class="section-heading"><div><span class="eyebrow muted">从这里开始</span><h2>设置一次，<br>以后交给分享菜单。</h2></div><p>手机和 Mac 连接同一局域网。<br>接收端使用 Mac 自带的文件共享。</p></div>
+  <div class="setup-grid">
+   <article class="setup-step"><span class="step-number">1</span><h3>让 Mac 准备好接收</h3><p>在系统设置中打开「文件共享」，启用 SMB，添加接收文件夹，并为自己的账户设置读写权限。</p><div class="step-foot">Mac → 系统设置 → 共享</div></article>
+   <article class="setup-step"><span class="step-number">2</span><h3>在手机里连接一次</h3><p>填写 Mac 的局域网地址、共享名称、用户名和密码。密码默认隐藏，并加密保存在手机本地。</p><div class="step-foot">SMB 分享 → 连接设置</div></article>
+   <article class="setup-step"><span class="step-number">3</span><h3>选文件，然后分享</h3><p>在文件管理器或相册里选中文件，点分享，再选「SMB 分享」。大文件会打开进度页，请保持前台、不要锁屏；完成后会收到通知。</p><div class="step-foot">文件 → 分享 → SMB 分享</div></article>
+  </div>
+  <p class="guide-link">需要逐步配置？<a href="https://github.com/timmyagentic/smb-share/blob/main/INSTALL.md">阅读完整使用指南 <span aria-hidden="true">↗</span></a></p>
+ </section>
+ <section id="screenshots" class="screens-section section">
+  <div class="wrap">
+   <div class="section-heading"><div><span class="eyebrow muted">看看实际的样子</span><h2>在你的手机上，<br>就是这么简单。</h2></div><p>均为 Android 16 真机截图：前两张来自 v1.0.0，<br>进度页来自 v1.1.1 候选验收，与正式版界面一致。</p></div>
+   <div class="screen-grid">
+    <figure><a class="screenshot-open screen-frame" href="/assets/app-home.png" aria-label="放大主界面截图" data-gallery-title="配置接收端"><img src="/assets/app-home.png" alt="SMB 分享主界面真实截图" width="1260" height="2800" loading="lazy"></a><figcaption><span>01</span><div><strong>一个简单的入口</strong><p>连接设置，或手动选择文件。</p></div></figcaption></figure>
+    <figure><a class="screenshot-open screen-frame" href="/assets/share-sheet.png" aria-label="放大系统分享菜单截图" data-gallery-title="系统分享菜单"><img src="/assets/share-sheet.png" alt="vivo 系统分享菜单中的 SMB 分享入口，选中一个测试文件" width="1260" height="2800" loading="lazy"></a><figcaption><span>02</span><div><strong>在熟悉的分享菜单里</strong><p>点「SMB 分享」，就开始传。</p></div></figcaption></figure>
+    <figure><a class="screenshot-open screen-frame" href="/assets/transfer-progress.png" aria-label="放大大文件传输进度截图" data-gallery-title="查看传输进度"><img src="/assets/transfer-progress.png" alt="大文件传输进度与保持前台、不要锁屏提示" width="1260" height="2800" loading="lazy"></a><figcaption><span>03</span><div><strong>大文件，进度看得见</strong><p>自动保持亮屏，完成后即可离开。</p></div></figcaption></figure>
+   </div>
+  </div>
+ </section>
+ <section class="section wrap details-section">
+  <div class="detail-intro"><span class="eyebrow muted">小工具，也认真对待细节</span><h2>传的是文件，<br>省的是麻烦。</h2><p>从自己的日常需要出发，做一个轻量、<br>可读源码、功能明确的分享工具。</p><a class="text-link" href="https://github.com/timmyagentic/smb-share">在 GitHub 上了解项目 <span aria-hidden="true">↗</span></a></div>
+  <div class="detail-list">
+   <article><span aria-hidden="true">↳</span><div><h3>同名文件，自动避让</h3><p>已有文件保留，新文件自动添加数字后缀。先写临时文件，完成后再改为正式名称。</p></div></article>
+   <article><span aria-hidden="true">◉</span><div><h3>凭证留在你的手机</h3><p>使用 Android Keystore 加密保存。密码默认隐藏，可按需显示；设置窗口禁止截屏。</p></div></article>
+   <article><span aria-hidden="true">≋</span><div><h3>边读边传，保持轻量</h3><p>采用流式上传，不把整个文件载入内存。原生界面，无网页运行时。</p></div></article>
+  </div>
+ </section>
+ <section id="performance" class="section wrap performance-section">
+  <div class="section-heading"><div><span class="eyebrow muted">v1.1.1 · 大文件更从容</span><h2>同一个分享入口，<br>更快传完大文件。</h2></div><p>固定设备与局域网实测。<br>实际速度取决于手机、网络与接收端。</p></div>
+  <div class="performance-grid"><article><span>256 MiB 文件</span><strong>2.8–3.2 秒</strong><p>相同环境的原版约 25.4 秒。</p></article><article><span>1 GiB 文件</span><strong>9.49–9.66 秒</strong><p>两次传输均通过长度与 SHA-256 校验。</p></article></div>
+  <p class="performance-note">测试于 2026-10-11 至 12：vivo V2502DA / Android 16，充电、进度页前台亮屏，Mac 千兆有线网络。数值为同一上传实现的诊断构建内部计时，包含连接认证；不是所有设备的速度承诺。<a href="https://github.com/timmyagentic/smb-share/blob/main/docs/performance.md">查看方法、实现与验证边界 ↗</a></p>
+ </section>
+ <section id="before-download" class="compat wrap">
+  <div class="compat-heading"><span class="compat-icon" aria-hidden="true">i</span><div><span class="eyebrow">下载前的小提示</span><h2>大文件传输，请保持前台与亮屏。</h2></div></div>
+  <div class="compat-body"><p>v1.1.1 从系统分享接收总大小达到 32 MiB 或大小未知的文件时，会自动打开进度页，并在传输期间保持亮屏。请留在该页面、不要手动锁屏；完成、失败或取消后会解除亮屏。小文件仍可在原应用等待通知。</p><p>部分手机仍可能冻结后台传输，切换应用或锁屏可能中断；当前没有断点续传。APK 沿用开发签名，非应用商店发行版。请在可信局域网中使用，并以成功状态和接收端文件为准。<a href="https://github.com/timmyagentic/smb-share#已知限制">查看完整限制与说明 ↗</a></p></div>
+ </section>
+ <section id="faq" class="section wrap faq-section">
+  <div><span class="eyebrow muted">你可能想问</span><h2>用之前，<br>再了解一点。</h2></div>
+  <div class="faq-list">
+   <!--product:faq-->
+  </div>
+ </section>
+ <section class="last-call wrap"><div><span class="eyebrow">开源，小巧，直达。</span><h2>下一个文件，<br class="mobile-break">分享给 Mac。</h2></div><div><a class="button button-light" href="/downloads/SMB-Share-1.1.1.apk" download>下载 SMB Share 1.1.1 <span aria-hidden="true">↓</span></a><a class="checksum" href="/downloads/SHA256SUMS.txt">查看 SHA-256 校验值</a></div></section>
+</main>
+<footer class="footer wrap"><a class="brand" href="/"><img src="/assets/icon.svg" width="28" height="28" alt=""><span>SMB Share</span></a><p>一个由 <a href="https://timmyagentic.si/">timmyagentic</a> 维护的开源小工具。</p><div><a href="https://timmyagentic.si/#work">更多工具 ↗</a><a href="https://github.com/timmyagentic/smb-share">GitHub ↗</a><a href="https://github.com/timmyagentic/smb-share/blob/main/LICENSE">MIT License</a></div></footer>
+
+</body></html>
