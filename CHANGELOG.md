@@ -2,11 +2,10 @@
 
 ## Unreleased
 
-- Redesign the website around an interactive Android share workflow, responsive navigation and a QR download dialog.
+- Restore the original transfer guide, download layout, and screenshot viewer.
 
 - 官网随浏览器宽高铺开，适配大屏、超宽、平板和手机横竖屏，并完整保留内容与操作入口。
 - Add one required Android CI job for existing release unit tests, lint and APK compilation without device, server or publishing access.
-
 
 - 统一默认分支 PR 保护、squash 合并和远程分支自动删除，本地分支与 worktree 沿用现有归档流程。
 - 使用 Cloudflare 自定义域名接管旧 Sites 的 CNAME 入口，并记录原 DNS 回退目标。

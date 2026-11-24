@@ -99,3 +99,7 @@
 
 /* Media fits the allocated track without contributing its native pixel dimensions. */
 .viewport-home .hero-demo video { contain: size; }
+
+@layer {
+  [data-react-aria-pressable] { touch-action: pan-x pan-y pinch-zoom; }
+}
