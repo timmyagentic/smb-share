@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Improve the contrast of supporting text on the product landing page.
+
 - Show the Android share sheet and completed transfer beside the APK download.
 
 - Restore the original transfer guide, download layout, and screenshot viewer.

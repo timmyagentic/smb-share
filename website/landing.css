@@ -130,3 +130,6 @@
 .landing-smb .principles,.landing-smb .screens-section {background:#eaf1df;}
 .landing-smb .how-section,.landing-smb .details-section,.landing-smb .performance-section {padding-block:64px;}
 @media(max-width:740px){.landing-smb .phone-pair {padding:16px; gap:12px;}.landing .phone-pair img {height:200px;} }
+
+.landing-smb { --muted: var(--muted-text); }
+.landing-smb :is(.principles, .how-section, .screens-section, .details-section, .performance-section, .compat) p { color: var(--muted-text); }
