@@ -1,3 +1,23 @@
+const dialog = document.querySelector('#image-dialog');
+const picture = document.querySelector('#dialog-image');
+let toolbarLoading;
+let opener;
+for (const button of document.querySelectorAll('.screenshot-open')) {
+  button.addEventListener('click', () => {
+    opener = button;
+    picture.src = button.dataset.image;
+    picture.alt = button.querySelector('img').alt;
+    document.querySelector('#image-caption').textContent = button.dataset.caption;
+    dialog.showModal();
+    toolbarLoading ??= import('./ui/controls.js')
+      .then(({ mountViewerBar }) => mountViewerBar(dialog))
+      .catch(() => { toolbarLoading = undefined; });
+  });
+}
+document.querySelector('#dialog-close').addEventListener('click', () => dialog.close());
+dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+dialog.addEventListener('close', () => opener?.focus());
+
 const demoVideo = document.getElementById('demo-video');
 const playback = document.querySelector('[data-demo-playback]');
 if (demoVideo && playback) {
