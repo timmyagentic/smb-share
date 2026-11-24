@@ -5,10 +5,9 @@ import {
   Share2,
   ArrowDownToLine,
   QrCode,
-  X,
 } from "lucide-react";
 import { Button } from "@heroui/react/button";
-import { Action, Choices, Figure, HeroCopy, Mark, ModalPanel } from "./ui.jsx";
+import { Action, Choices, Figure, ModalPanel } from "./ui.jsx";
 export const site = {
   name: "SMB Share",
   lang: "zh",
@@ -46,24 +45,18 @@ const screens = [
   },
 ];
 export function Hero() {
-  const [screen, setScreen] = useState("share"),
-    [qr, setQr] = useState(false);
+  const [screen, setScreen] = useState("share");
+  const [qr, setQr] = useState(false);
   const trigger = useRef(null);
   return (
-    <section className="pi-hero transfer-hero">
-      <div className="pi-container pi-split">
-        <HeroCopy
-          mark={<Mark Icon={Smartphone}>Android · SMB2/3</Mark>}
-          title={
-            <>
-              把文件，
-              <br />
-              直接送到 Mac。
-            </>
-          }
-          description="从 Android 分享菜单把照片、视频和文件直接送到局域网里的共享文件夹。"
-        >
-          <div className="pi-actions">
+    <section className="pi-hero transfer-hero" aria-labelledby="hero-title">
+      <div className="pi-container">
+        <header className="transfer-heading">
+          <div>
+            <h1 id="hero-title">SMB Share</h1>
+            <p>在 Android 的分享菜单里，把文件发到 Mac 或局域网共享文件夹。</p>
+          </div>
+          <div className="transfer-actions">
             <Action
               href="/downloads/SMB-Share-1.1.1.apk"
               icon={ArrowDownToLine}
@@ -79,53 +72,61 @@ export function Hero() {
               <QrCode size={18} />
               手机扫码
             </Button>
-            <ModalPanel
-              open={qr}
-              onChange={setQr}
-              title="用手机打开官网"
-              closeLabel="关闭二维码"
-              className="transfer-qr"
-              returnFocus={trigger}
-            >
-              <img
-                src="/assets/download-qr.svg"
-                width={224}
-                height={224}
-                alt="SMB Share 官方下载页二维码"
-              />
-              <a href="/downloads/SMB-Share-1.1.1.apk">下载 APK</a>
-            </ModalPanel>
           </div>
-          <a className="transfer-movie" href="/assets/share-demo.mp4">
-            观看真机传输录像
-          </a>
-        </HeroCopy>
-        <article className="transfer-guide">
-          <h2>手机上的三个步骤</h2>
-          <Choices
-            label="查看传输步骤"
-            tabs={screens}
-            value={screen}
-            onChange={setScreen}
-          >
-            {(s) => (
-              <div className="transfer-panel">
-                <div>
-                  <h3>{s.title}</h3>
-                  <p>{s.body}</p>
+        </header>
+        <ModalPanel
+          open={qr}
+          onChange={setQr}
+          title="用手机打开官网"
+          closeLabel="关闭二维码"
+          className="transfer-qr"
+          returnFocus={trigger}
+        >
+          <img
+            src="/assets/download-qr.svg"
+            width={224}
+            height={224}
+            alt="SMB Share 官方下载页二维码"
+          />
+          <a href="/downloads/SMB-Share-1.1.1.apk">下载 APK</a>
+        </ModalPanel>
+        <div className="transfer-stage">
+          <div className="transfer-step-reading">
+            <h2>从手机发送文件</h2>
+            <Choices
+              label="查看传输步骤"
+              tabs={screens}
+              value={screen}
+              onChange={setScreen}
+            >
+              {(item) => (
+                <div className="transfer-instruction">
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                  <a href="/assets/share-demo.mp4">观看真机录像</a>
                 </div>
+              )}
+            </Choices>
+          </div>
+          <div className="transfer-contact-sheet" aria-label="三张真机截图">
+            {screens.map((s) => (
+              <figure
+                key={s.id}
+                data-current={s.id === screen ? "true" : "false"}
+              >
                 <Figure
                   src={s.src}
                   title={s.title}
                   alt={s.body}
                   width={1260}
                   height={2800}
-                  priority
+                  priority={s.id === "share"}
                 />
-              </div>
-            )}
-          </Choices>
-        </article>
+                <figcaption>{s.label}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
