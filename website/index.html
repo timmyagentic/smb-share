@@ -17,24 +17,34 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://smb.timmyagentic.si/assets/social-card.png">
 <meta name="twitter:image:alt" content="SMB Share — 手机里的文件，顺手传到电脑。">
-<link id="react-aria-pressable-style" rel="stylesheet" href="/landing.css">
+<link id="react-aria-pressable-style" rel="stylesheet" href="/viewport.css">
+<script src="/viewport.js" defer></script>
 </head>
-<body class="landing landing-smb">
+<body class="viewport-home" data-viewport-page>
 <a class="skip" href="#main">跳到正文</a>
 <header class="header wrap">
  <a href="/" class="brand" aria-label="SMB Share 首页"><img src="/assets/icon.svg" width="36" height="36" alt=""><span>SMB Share<span class="brand-zh">SMB 分享</span></span></a>
  <nav aria-label="主导航"><a href="#how">使用方法</a><a href="#screenshots">真实截图</a><a href="#faq">常见问题</a><a class="nav-github" href="https://github.com/timmyagentic/smb-share">GitHub <span aria-hidden="true">↗</span></a></nav>
 </header>
 <main id="main">
- <section class="landing-hero" aria-labelledby="hero-title">
-  <div class="landing-copy">
-    <h1 id="hero-title"><span class="landing-line">手机里选文件，</span><span class="landing-line">直接发到 Mac。</span></h1>
-    <p class="landing-desc">在 Android 分享菜单选择 SMB Share，文件通过局域网进入 Mac 的共享文件夹。电脑端只需开启文件共享。</p>
-    <div class="landing-actions"><a class="landing-action" data-primary-action href="/downloads/SMB-Share-1.1.1.apk" download>下载 Android 版 <span aria-hidden="true">↗</span></a><details class="phone-download"><summary>用手机扫码安装</summary><div class="phone-download-card"><img src="/assets/download-qr.svg" width="132" height="132" alt="扫码在手机打开 SMB Share 官网"><div><p>用手机扫码，查看安装说明并下载 APK。</p><a href="#before-download">下载前注意事项 →</a></div></div></details></div>
-    <p class="landing-note">v1.1.1 · Android 9+ · 约 315 KiB · MIT 开源</p>
+ <section class="hero wrap">
+  <div class="hero-copy">
+   <div class="eyebrow"><span class="dot"></span> 一个小工具，少绕一点路</div>
+   <h1>把文件，<br>直接送到 <em>Mac。</em></h1>
+   <p class="hero-lead">照片、文档、随手保存的文件。<br>在 Android 分享菜单里点一下，<br class="mobile-break">就能通过局域网传到你的 Mac。<br>大文件自动显示进度，传输期间保持亮屏。</p>
+   <div class="hero-actions"><a class="button button-primary" href="/downloads/SMB-Share-1.1.1.apk" download><span aria-hidden="true">↓</span> 下载 Android 版</a><details class="phone-download"><summary>用手机扫码安装</summary><div class="phone-download-card"><img src="/assets/download-qr.svg" width="132" height="132" alt="扫码在手机打开 SMB Share 官网"><div><p>用手机扫码，查看安装说明并下载 APK。</p><a href="#before-download">下载前注意事项 →</a></div></div></details></div>
+   <p class="download-note">v1.1.1 <span>·</span> Android 9+ <span>·</span> 约 315 KiB <span>·</span> MIT 开源</p>
+   <div class="support-links"><a href="#how" class="text-link">首次使用？先看配置步骤 <span aria-hidden="true">→</span></a><a class="text-link" href="https://github.com/timmyagentic/smb-share">查看源码 ↗</a></div>
+   <div class="hero-bottom"><span>无需电脑客户端</span><span>无广告</span><span>无需云端中转</span></div>
   </div>
-  <div class="landing-proof phone-pair"><a href="#screenshots"><img src="/assets/share-sheet.png" alt="Android 分享菜单中的 SMB Share" width="310" height="605"><span>在分享菜单选文件</span></a><a href="#screenshots"><img src="/assets/upload-done.png" alt="SMB Share 完成传输后的手机界面" width="310" height="605"><span>查看传输结果</span></a></div>
-</section>
+  <figure class="hero-demo" id="demo">
+   <video id="demo-video" controls muted loop playsinline preload="metadata" poster="/assets/share-demo-poster.jpg" width="1920" height="1080" aria-label="SMB Share 真机演示：从 Android 系统分享面板发送原图到 Mac">
+    <source src="/assets/share-demo.mp4" type="video/mp4">
+    <a href="/assets/share-demo.mp4">观看 7.8 秒真机演示</a>
+   </video>
+   <figcaption>在系统分享面板点一下，原图就到 Mac。 <button class="demo-playback" type="button" data-demo-playback aria-controls="demo-video" hidden>播放演示</button></figcaption>
+  </figure>
+ </section>
  <section class="principles" aria-label="产品特点"><div class="wrap principle-grid">
   <div><span class="principle-num">01 / 简单</span><h2>在分享菜单里完成</h2><p>设置一次。之后选好文件，点「SMB 分享」，自动开始上传。</p></div>
   <div><span class="principle-num">02 / 直接</span><h2>文件直接到你的 Mac</h2><p>通过 SMB2/3 发送到你配置的共享文件夹，完成后给你一条通知。</p></div>
@@ -49,14 +59,7 @@
   </div>
   <p class="guide-link">需要逐步配置？<a href="https://github.com/timmyagentic/smb-share/blob/main/INSTALL.md">阅读完整使用指南 <span aria-hidden="true">↗</span></a></p>
  </section>
- <div class="benefit-statement"><p><span class="benefit-line"><span class="benefit-word">文件走</span><span class="benefit-word">自己的局域网，</span></span><span class="benefit-line"><span class="benefit-word">Mac 上打开的</span><span class="benefit-word">就是原文件。</span></span></p></div><figure class="movie-guide" id="demo">
-   <video id="demo-video" controls muted loop playsinline preload="metadata" poster="/assets/share-demo-poster.jpg" width="1920" height="1080" aria-label="SMB Share 真机演示：从 Android 系统分享面板发送原图到 Mac">
-    <source src="/assets/share-demo.mp4" type="video/mp4">
-    <a href="/assets/share-demo.mp4">观看 7.8 秒真机演示</a>
-   </source></video>
-   <figcaption>在系统分享面板点一下，原图就到 Mac。 <button class="demo-playback" type="button" data-demo-playback aria-controls="demo-video" hidden>播放演示</button></figcaption>
-  </figure>
-<section id="screenshots" class="screens-section section">
+ <section id="screenshots" class="screens-section section">
   <div class="wrap">
    <div class="section-heading"><div><span class="eyebrow muted">看看实际的样子</span><h2>在你的手机上，<br>就是这么简单。</h2></div><p>均为 Android 16 真机截图：前两张来自 v1.0.0，<br>进度页来自 v1.1.1 候选验收，与正式版界面一致。</p></div>
    <div class="screen-grid">
