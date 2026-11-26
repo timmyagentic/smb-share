@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="website/assets/icon.svg" width="72" height="72" alt="SMB Share">
+  <img src="https://smb.timmyagentic.si/assets/icon.svg" width="72" height="72" alt="SMB Share">
   <h1>SMB Share · SMB 分享</h1>
   <p><strong>在 Android 分享菜单里点一下，把文件直接送到 Mac。</strong></p>
   <p>局域网直传 · 完成即通知 · 约 315 KiB · MIT 开源</p>
@@ -96,9 +96,9 @@ Mac 应保持唤醒，并与手机处于能够互访的网络；访客 Wi-Fi 或
     <th align="center">③ 传输成功通知</th>
   </tr>
   <tr>
-    <td align="center"><a href="website/assets/app-home.png"><img src="website/assets/app-home.png" width="245" alt="SMB 分享主界面，含选择文件、发送到 Mac 和连接设置按钮"></a></td>
-    <td align="center"><a href="website/assets/share-sheet.png"><img src="website/assets/share-sheet.png" width="245" alt="系统分享菜单中的 SMB 分享入口"></a></td>
-    <td align="center"><a href="website/assets/upload-done.png"><img src="website/assets/upload-done.png" width="245" alt="系统成功通知：已发送到 Mac，1 个文件已保存到 PhoneInbox"></a></td>
+    <td align="center"><a href="https://smb.timmyagentic.si/assets/app-home.png"><img src="https://smb.timmyagentic.si/assets/app-home.png" width="245" alt="SMB 分享主界面，含选择文件、发送到 Mac 和连接设置按钮"></a></td>
+    <td align="center"><a href="https://smb.timmyagentic.si/assets/share-sheet.png"><img src="https://smb.timmyagentic.si/assets/share-sheet.png" width="245" alt="系统分享菜单中的 SMB 分享入口"></a></td>
+    <td align="center"><a href="https://smb.timmyagentic.si/assets/upload-done.png"><img src="https://smb.timmyagentic.si/assets/upload-done.png" width="245" alt="系统成功通知：已发送到 Mac，1 个文件已保存到 PhoneInbox"></a></td>
   </tr>
   <tr>
     <td align="center">配置接收端，也可手动选文件</td>
@@ -109,7 +109,7 @@ Mac 应保持唤醒，并与手机处于能够互访的网络；访客 Wi-Fi 或
 
 大文件传输页（1.1.1 候选真机验收截图，与正式版使用同一上传实现）：
 
-<img src="website/assets/transfer-progress.png" width="280" alt="大文件传输进度页，显示百分比与保持前台亮屏提示">
+<img src="https://smb.timmyagentic.si/assets/transfer-progress.png" width="280" alt="大文件传输进度页，显示百分比与保持前台亮屏提示">
 
 连接设置中的密码输入框默认隐藏，可选择显示。设置窗口启用了 Android 安全窗口标记，因此这里不展示该窗口的截图。
 
@@ -220,22 +220,12 @@ app/src/main/java/local/smbshare/
 ├── Names.java          # 文件名清理与同名处理
 └── RetryHistory.java   # 有界批次进度记录
 app/src/test/           # 文件名、重试、窗口、签名与序列化单元测试
-website/                # 官网、真实截图、1.1.1 下载与校验值
+website/                # 官网源码入口
 ```
 
 ## 官网开发
 
-官网是 `website/` 下的静态 HTML、CSS 和 JavaScript，不依赖前端框架。
-
-```bash
-# 本地预览
-python3 -m http.server 8787 --directory website
-
-# 准备部署目录（需要 Node.js）
-node scripts/build-website.mjs
-```
-
-当前官网通过 Cloudflare Worker 的自定义域名发布，保持原域名和下载路径；验证、部署及回退见 [官网说明](website/README.md)。上面的历史构建命令仍可输出被 Git 忽略的 `dist/`，Cloudflare 直接使用 `website/`。官网图片来自真机截图；请勿提交包含个人信息的截图或签名密钥。
+官网源码、截图和发布配置统一维护在 [personal-hub](https://github.com/timmyagentic/personal-hub/tree/main/sites/smb-share)。
 
 ## 验证与参与
 
