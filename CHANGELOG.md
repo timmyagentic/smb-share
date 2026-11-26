@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- 官网源码和发布流程统一迁入网站仓库。
+
 - Restore the original transfer guide, download layout, and screenshot viewer.
 
 - 官网随浏览器宽高铺开，适配大屏、超宽、平板和手机横竖屏，并完整保留内容与操作入口。
